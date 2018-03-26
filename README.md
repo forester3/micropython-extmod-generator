@@ -12,8 +12,9 @@ extmod-generator [-f] module
 
 Program will look for file named `module/module.py` and generate the following files:
 
-* `module/modmodule.c` - external module source code - to be put in `micropython/extmod`
-* `module/qstrdefs.h` - needs to be merged manually with `micropython/py/qstrdefs.h`
+* `module/modmodule.c`    - external module source code - to be put in `micropython/extmod`
+* `module/qstrdefs.h`     - needs to be merged manually with `micropython/py/qstrdefs.h`
+* `module/mpconfigport.h` - needs to be merged manually with `micropython/ports/(arch)/mpconfigport.h`
 
 If a `module` argument is not provided, the default `example` will be used.
 
