@@ -133,6 +133,10 @@ class Source(object):
     @property
     def qstrdefs_filename(self):
         return os.path.join(self.module.path, 'qstrdefs.h')
+        
+    @property    
+    def mpconfigport_filename(self):
+        return os.path.join(self.module.path, 'mpconfigport.h')
 
     def append(self, line, **kwargs):
         kwargs['module'] = self.module.name
@@ -153,9 +157,15 @@ class Source(object):
             f.write('\n'.join(self.qstrdefs) + '\n')
             f.write('#endif\n')
         print('Saved qstrdefs as {fn}'.format(fn=self.qstrdefs_filename))
-
-
-
+        with open(self.mpconfigport_filename, 'w') as f:
+            f.write('extern const struct _mp_obj_module_t {module};\n'.format(module=self.module.name))
+            f.write('\n')
+            f.write('#define MICROPY_PORT_BUILTIN_MODULES \\\n')
+            f.write('    {{ MP_ROM_QSTR(MP_QSTR_{module1}), MP_ROM_PTR(&mp_module_{module2}) }}\n' \
+                                    .format(module1=self.module.name, module2=self.module.name))
+            f.write('\n')
+        print('Saved mpconfigport as {fn}'.format(fn=self.mpconfigport_filename))
+       
 def generate_function(src, f):
 
     src.append('// ' + f.get_prototype())
@@ -263,6 +273,12 @@ def generate(module, force=False):
     src = Source(module)
 
     src.append('#if MICROPY_PY_{MODULE}')
+    src.append('')
+    src.append('#include "py/nlr.h"')
+    src.append('#include "py/obj.h"')
+    src.append('#include "py/runtime.h"')
+    src.append('#include "py/binary.h"')
+    src.append('#include "portmodules.h"')
     src.append('')
 
     for f in module.functions:
