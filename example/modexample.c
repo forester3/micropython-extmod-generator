@@ -3,7 +3,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Module Author
+ * Copyright (c) 2018 Module Author
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,14 @@
  * THE SOFTWARE.
  */
 
+
 #if MICROPY_PY_EXAMPLE
+
+#include "py/nlr.h"
+#include "py/obj.h"
+#include "py/runtime.h"
+#include "py/binary.h"
+#include "portmodules.h"
 
 // def func_a()
 STATIC mp_obj_t mod_example_func_a(void) {
