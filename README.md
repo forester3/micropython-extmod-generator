@@ -21,7 +21,7 @@ Example
 -------
 
 [example/example.py](example/example.py) ⇒ [example/modexample.c](example/modexample.c) + [example/qstrdefs.h](example/qstrdefs.h)
-
+                                            + [example/mpconfigport.h](example/mpconfigport.h)
 License
 -------
 
